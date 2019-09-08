@@ -1,0 +1,25 @@
+server:
+  port: 8762
+spring:
+  application:
+    name: eureka-server
+  boot:
+    admin:
+      client:
+        url: http://${admin.host:127.0.0.1}:${admin.port:8070}
+eureka:
+  instance:
+    hostname: peer2
+  client:
+    # 不向自己注册。Eureka 做分布式集群时再启用。
+    register-with-eureka: true
+    # Eureka 做分布式集群时再启用。
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${eureka.host:peer1}:${eureka.port:8761}/eureka/,http://${eureka.host:peer3}:${eureka.port:8763}/eureka/
+  server:
+    # 开启保护模式
+    enable-self-preservation: true
+    # 留存的服务实例数低于该阈值（50%）会进入保护模式。进入保护模式后，Eureka 不再注销任何服务实例。
+    renewal-percent-threshold: 0.5
+

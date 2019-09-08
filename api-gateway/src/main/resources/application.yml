@@ -1,0 +1,45 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: api-gateway
+#  boot:
+#    admin:
+#      client:
+#        url: http://${admin.host:127.0.0.1}:${admin.port:8070}
+  freemarker:
+    expose-request-attributes: true
+    expose-session-attributes: true
+    settings:
+      datetime_format: yyyy-MM-dd HH:mm:ss
+      auto_import: common/common.ftl as common
+      default_encoding: UTF-8
+    suffix: .ftl
+    charset: UTF-8
+    content-type: text/html;charset=UTF-8
+    allow-session-override: true
+    allow-request-override: true
+  mail:
+    username: 1390174365@qq.com
+    host: smtp.qq.com
+    password: oyemkayjalqwfica
+    port: 587 #465
+    test-connection: true
+  cloud:
+    gateway:
+      routes:
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    # 续约间隔时间。每隔 30s 发送一次心跳。
+    lease-renewal-interval-in-seconds: 5
+    # 90s 内没有收到续约则注销实例。
+    lease-expiration-duration-in-seconds: 10
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:127.0.0.1}:${eureka.port:8761}/eureka # , http://${eureka.host:127.0.0.1}:${eureka.port:6380}/eureka
+    register-with-eureka: false
+    fetch-registry: true

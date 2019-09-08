@@ -1,0 +1,44 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: user-service
+#  boot:
+#    admin:
+#      client:
+#        url: http://${admin.host:127.0.0.1}:${admin.port:8070}
+  # druid 配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/user
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    druid:
+      filter:
+        stat:
+          slow-sql-millis: 5000
+          log-slow-sql: true
+          merge-sql: true
+      stat-view-servlet:
+        url-pattern: /druid/*
+      min-idle: 5
+      max-active: 30
+  redis:
+    password: 123456
+eureka:
+  instance:
+    # 续约间隔时间。每隔 30s 发送一次心跳。
+    lease-renewal-interval-in-seconds: 5
+    # 90s 内没有收到续约则注销实例。
+    lease-expiration-duration-in-seconds: 10
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://${eureka.host:127.0.0.1}:${eureka.port:8761}/eureka #,http://${eureka.host:127.0.0.1}:${eureka.port:8762}/eureka,http://${eureka.host:127.0.0.1}:${eureka.port:8763}/eureka
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
