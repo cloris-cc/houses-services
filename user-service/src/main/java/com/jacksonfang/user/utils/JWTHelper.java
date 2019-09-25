@@ -36,16 +36,29 @@ public class JWTHelper {
         }
     }
 
+    /**
+     * 根据 claims 生成 jwt
+     *
+     * @param claims 信息载体 payload
+     * @return jwt
+     */
     public static String generateToken(Map<String, String> claims) {
-
-        JWTCreator.Builder builder = JWT.create()
+        JWTCreator.Builder jwtBuilder = JWT.create()
                 .withIssuer(ISSUER)
                 .withExpiresAt(DateUtils.addDays(new Date(), 1));
-        claims.forEach(builder::withClaim);
-        return builder.sign(algorithm);
+        claims.forEach(jwtBuilder::withClaim);
+        // 使用 jwt sign 方法注册生成 jwt(token)
+        return jwtBuilder.sign(algorithm);
     }
 
+    /**
+     * 解析 jwt 获取 claims
+     *
+     * @param token jwt
+     * @return claims
+     */
     public static Map<String, String> verifyToken(String token) {
+        // 使用 jwt verify 方法解析出 jwt 的 claims
         DecodedJWT jwt = JWT.require(algorithm).withIssuer(ISSUER).build().verify(token);
         Map<String, Claim> claimMap = jwt.getClaims();
         Map<String, String> resultMap = new HashMap<>();
